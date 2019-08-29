@@ -1,0 +1,8 @@
+.table {
+    minWidth: 650
+}
+
+.root {
+    width: '100%';
+    overflowX: 'auto';
+}
