@@ -1,6 +1,10 @@
 # Pointer
 
-Voyager Frontend
+Frontend application - Voyager project
+
+![alt text](docs/pics/voyager.png "Diagram of Voyager project")
+
+## Pages
 
 - Pages:
   - Login
@@ -23,3 +27,5 @@ For development run:
 `npm start`
 
 Go to http://localhost:8080 in your browser.
+
+Read more detailed specification on [wiki page](https://github.com/mskcc/pointer/wiki/Pointer).
