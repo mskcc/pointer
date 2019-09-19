@@ -2,6 +2,15 @@
 
 Voyager Frontend
 
+- Pages:
+  - Login
+  - Files
+  - File Details
+  - Runs
+  - Create Run
+  - File Picker
+  - Outputs
+
 ## Setup
 
 Install NodeJS and NPM from https://nodejs.org/en/download/.
