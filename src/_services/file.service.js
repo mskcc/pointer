@@ -49,7 +49,7 @@ function parseResponse(files) {
         file['file_name'] = item.file_name
         file['size'] = item.size
         file['file_group'] = item.file_group.name
-        file['sample_id'] = item.metadata.igoSampleId
+        file['sample_id'] = item.metadata.igoId
         file['request_id'] = item.metadata.requestId
         results['results'].push(file)
     });

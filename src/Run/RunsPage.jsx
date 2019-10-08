@@ -82,7 +82,7 @@ class RunsPage extends React.Component {
                                         {row.created_date}
                                     </TableCell>
                                     <TableCell>
-                                    <Button variant="contained" disabled={row.status != "CREATING"} onClick={() => this.editRun(row.id)}>Edit</Button>
+                                    <Button variant="contained" onClick={() => this.editRun(row.id)}>{row.status != "CREATING" ? "View" : "Edit"}</Button>
                                     </TableCell>
                                 </TableRow>
                             ))}
