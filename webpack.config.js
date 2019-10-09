@@ -46,12 +46,12 @@ module.exports = {
         new HtmlWebpackPlugin({template: './src/index.html'})
     ],
     devServer: {
-        historyApiFallback: true 
+        historyApiFallback: true
     },
     externals: {
         // global app config object
         config: JSON.stringify({
-            apiUrl: 'http://localhost:8000'
+            apiUrl: 'http://silo:5001'
         })
     },
     output: {
