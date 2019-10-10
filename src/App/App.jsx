@@ -4,8 +4,10 @@ import { Router, Route, Link, NotFoundRoute } from 'react-router-dom';
 import { history } from '@/_helpers';
 import { authenticationService } from '@/_services';
 import { PrivateRoute } from '@/_components';
-import { FilesPage } from '@/Files';
-import { FilePage } from '@/Files';
+
+import FilesPageRedux from '@/Files/FilesPageRedux'; // new import syntax w/o {} with Redux
+
+// import { FilePage } from '@/Files';
 import { LoginPage } from '@/LoginPage';
 import { PipelinePage } from '@/PipelinePage';
 import { StartRun } from '@/Run'
@@ -60,7 +62,7 @@ class App extends React.Component {
                     }
                     <div className="jumbotron">
                             <PrivateRoute exact path="/" component={FilesPage} />
-                            <Route path="/file/:id" component={FilePage} />
+                            <Route path="/file/:id" component={FilesPageRedux} />
                             <Route path="/run/:id" component={StartRun} />
                             <Route path="/login" component={LoginPage} />
                             <Route path="/pipelines" component={PipelinePage} />

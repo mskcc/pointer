@@ -29,7 +29,7 @@ export function loadFilesList(data_for_request) {
 }
 
 // Set the state with currently selected file
-export function selectPrimaryCombination(selected_file) {
+export function selectFile(selected_file) {
     return {
         type: SET_OPTION,
         payload: selected_file
