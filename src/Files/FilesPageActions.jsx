@@ -14,6 +14,8 @@ import {
 export function loadFilesList(data_for_request) {
     // Todo: what should be in data_for_request?
     return function (dispatch) {
+        console.log('HERE');
+
 
         axios.get(API_URL + FILES_ENDPOINT, {
             params: {

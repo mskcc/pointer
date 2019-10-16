@@ -13,7 +13,16 @@ export const FILES_ENDPOINT = '/files';
 /*    Actions     */
 /*                */
 
-// Combinations Actions
+// App Actions
+
+export const FETCH_USER_ERROR = 'FETCH_USER_ERROR';
+export const FETCH_USER_FULFILLED = 'FETCH_USER_FULFILLED';
+export const FETCH_PATIENT_ERROR = 'FETCH_PATIENT_ERROR';
+export const FETCH_PATIENT_FULFILLED = 'FETCH_PATIENT_FULFILLED';
+export const SET_INITIAL_PATIENT_DATA = 'SET_INITIAL_PATIENT_DATA';
+export const LOGOUT = 'LOGOUT';
+
+// Files Actions
 export const FETCH_FILES_LIST = 'FETCH_FILES_LIST';
 export const FILES_LIST_FULFILLED = 'FILES_LIST_FULFILLED';
 export const FILES_LIST_ERROR = 'FILES_LIST_ERROR';
