@@ -1,91 +1,42 @@
 import React from 'react';
-import { Router, Route, Link } from 'react-router-dom'; //NotFoundRoute
 
-import { history } from '@/_helpers';
-import { authenticationService } from '@/_services';
-import { PrivateRoute } from '@/_components';
-
-import FilesPageRedux from '@/Files/FilesPageRedux';
-
-import { LoginPage } from '@/LoginPage';
-import { PipelinePage } from '@/PipelinePage';
-import { StartRun } from '@/Run'
-import { RunsPage } from '@/Run'
-
-import './App.css';
-import mskLogo from '../public/MSKCC-logo.jpg';
-import { Unauthorized } from '@/Unauthorized';
-
+import '@/App/App.css';
+import * as appActions from './AppActions'
 
 import { bindActionCreators } from 'redux';
-import { createStore, compose } from 'redux';
-import { Provider } from 'react-redux';
-import { connect } from 'react-redux';
-import store from './store';
+import { Provider, connect } from 'react-redux';
+
+
+const mapStateToProps = function(state) {
+    return {}
+};
+
+const mapDispatchToProps = function (dispatch) {
+    return bindActionCreators(appActions, dispatch)
+};
 
 
 class App extends React.Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            currentUser: null
-        };
     }
 
     componentDidMount() {
-        authenticationService.currentUser.subscribe(x => this.setState({ currentUser: x }));
+
     }
 
     logout() {
-        authenticationService.logout();
-        history.push('/login');
+        // authenticationService.logout();
+        // history.push('/login');
     }
 
     render() {
-        const { currentUser } = this.state;
-        var email = "";
-        if (currentUser && currentUser.user) {
-            email = currentUser.user.email
-        }
         return (
-
-            <Provider store={ store }>
-
-                <div>
-                <header className="header">
-                        <img src={mskLogo} className="logo"/>
-                        <div className="title">Voyager</div>
-                </header>
-                <Router history={history}>
-                    <div>
-                        {currentUser &&
-                            <nav className="navbar navbar-expand navbar-dark bg-dark">
-                                <ul className="navbar-nav">
-                                    <li className="pull-left"><Link to="/" className="nav-item nav-link">Files</Link></li>
-                                    <li className="pull-left"><Link to="/pipelines" className="nav-item nav-link">Pipelines</Link></li>
-                                    <li className="pull-left"><Link to="/runs" className="nav-item nav-link">Runs</Link></li>
-                                    <li className="pull-left"><a onClick={this.logout} className="nav-item nav-link">Logout</a></li>
-                                    <li className="pull-right"><p className="nav-item nav-link pull-right">{email}</p></li>
-                                </ul>
-                            </nav>
-                        }
-                        <div className="jumbotron">
-                            <PrivateRoute exact path="/" component={FilesPageRedux} />
-                            {/*<Route path="/file/:id" component={FilePage} />*/}
-                            <Route path="/run/:id" component={StartRun} />
-                            <Route path="/login" component={LoginPage} />
-                            <Route path="/pipelines" component={PipelinePage} />
-                            <Route path="/runs" component={RunsPage} />
-                            {/*<NotFoundRoute component={Unauthorized} />*/}
-                        </div>
-                    </div>
-                </Router>
-                </div>
-
-            </Provider>
+            <div id="app__container">
+                { this.props.children }
+            </div>
         );
     }
 }
 
-export { App }; 
+export default connect(mapStateToProps, mapDispatchToProps)(App)

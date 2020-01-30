@@ -15,7 +15,7 @@ function getPage(page) {
 function downloadCWL(id, entrypoint) {
     var headers = authHeader();
     headers["Content-Type"] = "text/json; charset=utf-8";
-    const requestOptions = { method: 'GET', headers: authHeader() }
+    const requestOptions = { method: 'GET', headers: authHeader() };
     fetch(`${config.apiUrl}/v0/run/pipeline/download/${id}`, requestOptions).then(response => {
         if (response.status === 200) {
             var content_disposition = response.headers.get("Content-Disposition");

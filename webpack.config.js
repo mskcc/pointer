@@ -1,4 +1,5 @@
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var webpack = require('webpack');
 const path = require('path');
 
 module.exports = {
@@ -42,8 +43,10 @@ module.exports = {
             '@': path.resolve(__dirname, 'src/'),
         }
     },
+    devtool: 'eval',
     plugins: [
-        new HtmlWebpackPlugin({template: './src/index.html'})
+        new HtmlWebpackPlugin({template: './src/index.html'}),
+        new webpack.SourceMapDevToolPlugin({})
     ],
     devServer: {
         historyApiFallback: true

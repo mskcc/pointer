@@ -1,12 +1,8 @@
 import React from "react"
-import { bindActionCreators } from 'redux';
 import { connect } from "react-redux"
-
-//import CircularProgress from 'material-ui/CircularProgress';
-
-//import FilesList from "FilesList";
-
+import { bindActionCreators } from 'redux';
 import * as filesPageActions from './FilesPageActions';
+
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
@@ -29,26 +25,26 @@ const mapDispatchToProps = function (dispatch) {
 };
 
 
-class FilesPageRedux extends React.Component {
+class FilesPage extends React.Component {
 
-    // componentDidMount() {
-    //     this.selectTimepoint = this.selectTimepoint.bind(this);
-    // }
+    componentWillMount() {
+        this.previous = this.previous.bind(this);
+    }
 
     componentDidUpdate(nextProps) {
-        this.props.loadFilesList('adsf');
+
     }
 
     componentDidMount() {
-        this.props.loadFilesList('adsf');
+
     }
 
     componentWillReceiveProps(nextProps, nextContext) {
-        this.props.loadFilesList('adsf');
+
     }
 
     componentWillUpdate(nextProps, nextState, nextContext) {
-        this.props.loadFilesList('adsf');
+
     }
 
     previous() {
@@ -206,4 +202,8 @@ class FilesPageRedux extends React.Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FilesPageRedux)
+// export default connect(mapStateToProps, mapDispatchToProps)(FilesPage)
+
+
+const ConnectedFilesPage = connect(mapStateToProps, mapDispatchToProps)(FilesPage);
+export default ConnectedFilesPage

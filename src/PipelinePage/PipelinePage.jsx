@@ -1,4 +1,8 @@
-import React from 'react';
+import React from "react"
+import { connect } from "react-redux"
+import { bindActionCreators } from 'redux';
+import * as pipelinePageActions from '@/PipelinePage/PipelinesPageActions.jsx';
+
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -9,6 +13,18 @@ import Button from '@material-ui/core/Button';
 import TableFooter from '@material-ui/core/TableFooter';
 
 import { runService, pipelineService, authenticationService } from '@/_services';
+
+
+const mapStateToProps = function (state) {
+    return {
+        files_list: state.filesPageReducer.files_list,
+    }
+};
+
+const mapDispatchToProps = function (dispatch) {
+    return bindActionCreators(pipelinePageActions, dispatch);
+};
+
 
 class PipelinePage extends React.Component {
 
@@ -32,11 +48,11 @@ class PipelinePage extends React.Component {
     }
 
     componentDidMount() {
-        this.loadPage();
+        setTimeout(this.loadPage, 1000);
     }
 
     loadPage() {
-        pipelineService.getPage(this.state.currentPage).then(pipelines => this.setState({ pipelines }));
+        this.props.getPage(this.state.currentPage);
     }
 
     nextPage(event) {
@@ -58,7 +74,7 @@ class PipelinePage extends React.Component {
     }
 
     render() {
-        const { pipelines } = this.state
+        const { pipelines } = this.state;
         return (
             <div>
                 <Paper>
@@ -124,4 +140,5 @@ class PipelinePage extends React.Component {
 
 }
 
-export { PipelinePage }; 
+const ConnectedPipelinePage = connect(mapStateToProps, mapDispatchToProps)(PipelinePage);
+export default ConnectedPipelinePage

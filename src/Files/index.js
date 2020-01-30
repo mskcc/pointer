@@ -1,2 +1,2 @@
-export * from './FilesPageRedux';
+export * from './FilesPage';
 export * from './File';
