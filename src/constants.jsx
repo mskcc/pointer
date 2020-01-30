@@ -26,8 +26,6 @@ export const LOGOUT = 'LOGOUT';
 export const FETCH_FILES_LIST = 'FETCH_FILES_LIST';
 export const FILES_LIST_FULFILLED = 'FILES_LIST_FULFILLED';
 export const FILES_LIST_ERROR = 'FILES_LIST_ERROR';
-export const SET_OPTION = 'SET_OPTION';
-
 
 // Pipelines Actions
 export const FETCH_PIPELINES = 'FETCH_PIPELINES';

@@ -28,60 +28,52 @@ const mapDispatchToProps = function (dispatch) {
 class FilesPage extends React.Component {
 
     componentWillMount() {
-        this.previous = this.previous.bind(this);
-    }
-
-    componentDidUpdate(nextProps) {
-
+        this.nextPage = this.nextPage.bind(this);
+        this.previousPage = this.previousPage.bind(this);
     }
 
     componentDidMount() {
-
+        this.props.loadFilesList();
     }
 
-    componentWillReceiveProps(nextProps, nextContext) {
-
+    nextPage(event) {
+        this.state.currentPage = this.state.currentPage + 1;
+        this.loadPage()
     }
 
-    componentWillUpdate(nextProps, nextState, nextContext) {
-
+    previousPage(event) {
+        this.state.currentPage = this.state.currentPage - 1;
+        this.loadPage()
     }
 
-    previous() {
-        this.props.previous();
+    fileDetails(event) {
+        this.props.history.push("/file/" + event)
     }
 
-    next() {
-        this.props.next();
+    updateFileGroupSearch(event) {
+        this.setState({file_group_search: event.target.value})
     }
 
-    search() {
-        this.props.search();
+    updateFileTypeSearch(event) {
+        this.setState({file_type_search: event.target.value})
     }
 
-    updateFileGroupSearch() {
-        this.props.updateFileGroupSearch();
+    updateMetadataSearch(event) {
+        this.setState({metadata_search: event.target.value})
     }
 
-    updateFileTypeSearch() {
-        this.props.updateFileTypeSearch();
+    updateFileNameSearch(event) {
+        this.setState({file_name_search: event.target.value})
     }
 
-    updateMetadataSearch() {
-        this.props.updateMetadataSearch();
-    }
-
-    updateFileNameSearch() {
-        this.props.updateFileNameSearch();
-    }
-
-    updateFileNameRegexSearch() {
-        this.props.updateFileNameRegexSearch();
+    updateFileNameRegexSearch(event) {
+        this.setState({file_name_regex_search: event.target.value})
     }
 
     render() {
-
-        this.props.loadFilesList('adsf');
+        if (!this.props.files_list) {
+            return (<div>Loading Files</div>);
+        }
 
         const {
             files_list,
@@ -151,7 +143,7 @@ class FilesPage extends React.Component {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {files_list.map(row => (
+                            {files_list.results.map(row => (
                                 <TableRow key={row.id}>
                                     <TableCell component="th" scope="row">
                                         {row.file_name}
@@ -166,7 +158,7 @@ class FilesPage extends React.Component {
                                         {row.request_id}
                                     </TableCell>
                                     <TableCell component="th" scope="row">
-                                        {row.file_group}
+                                        {row.file_group.name}
                                     </TableCell>
                                     <TableCell component="th" scope="row">
                                         <Button variant="contained" onClick={() => this.fileDetails(row.id)}>
@@ -201,9 +193,6 @@ class FilesPage extends React.Component {
         );
     }
 }
-
-// export default connect(mapStateToProps, mapDispatchToProps)(FilesPage)
-
 
 const ConnectedFilesPage = connect(mapStateToProps, mapDispatchToProps)(FilesPage);
 export default ConnectedFilesPage

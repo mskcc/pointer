@@ -7,13 +7,14 @@ import {
     FETCH_FILES_LIST,
     FILES_LIST_FULFILLED,
     FILES_LIST_ERROR,
-    SET_OPTION
 } from '../constants'
 
-import { authHeader, handleResponse } from '@/_helpers';
+import { authHeader } from '@/_helpers';
+
 
 export function loadFilesList(data_for_request) {
     return function (dispatch) {
+        dispatch({type: FETCH_FILES_LIST});
         axios.get(API_URL + FILES_ENDPOINT, {
             params: {
                 // param_one: unescape(data_for_request),

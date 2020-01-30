@@ -1,7 +1,7 @@
 import React from "react"
 import { connect } from "react-redux"
 import { bindActionCreators } from 'redux';
-import * as pipelinePageActions from '@/PipelinePage/PipelinesPageActions.jsx';
+import * as pipelinePageActions from '@/PipelinePage/PipelinePageActions.jsx';
 
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -17,7 +17,7 @@ import { runService, pipelineService, authenticationService } from '@/_services'
 
 const mapStateToProps = function (state) {
     return {
-        files_list: state.filesPageReducer.files_list,
+        pipelines: state.pipelinePageReducer.pipelines,
     }
 };
 
@@ -74,7 +74,11 @@ class PipelinePage extends React.Component {
     }
 
     render() {
-        const { pipelines } = this.state;
+        if (!this.props.pipelines) {
+            return (<div>Loading Pipelines</div>);
+        }
+
+        const { pipelines } = this.props;
         return (
             <div>
                 <Paper>

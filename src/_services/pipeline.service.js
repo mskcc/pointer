@@ -3,14 +3,8 @@ import { authHeader, handleResponse } from '@/_helpers';
 import { saveAs } from 'file-saver';
 
 export const pipelineService = {
-    getPage,
     downloadCWL
 };
-
-function getPage(page) {
-    const requestOptions = { method: 'GET', headers: authHeader() };
-    return fetch(`${config.apiUrl}/v0/run/pipelines/?page=${page}`, requestOptions).then(handleResponse);
-}
 
 function downloadCWL(id, entrypoint) {
     var headers = authHeader();
