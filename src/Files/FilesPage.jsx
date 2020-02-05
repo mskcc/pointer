@@ -13,7 +13,6 @@ import TableCell from '@material-ui/core/TableCell';
 import TableBody from '@material-ui/core/TableBody';
 import TableFooter from '@material-ui/core/TableFooter';
 import Box from "@material-ui/core/Box";
-import {authenticationService} from "@/_services";
 
 
 const mapStateToProps = function (state) {
@@ -34,7 +33,6 @@ class FilesPage extends React.Component {
 
         this.state = {
             currentPage: 1,
-            currentUser: authenticationService.currentUserValue,
         };
     }
 

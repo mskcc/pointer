@@ -56,25 +56,28 @@ class AppContainer extends React.Component {
                     </header>
 
                     <div>
-                        {currentUser &&
                         <nav className="navbar navbar-expand navbar-dark bg-dark">
                             <ul className="navbar-nav">
-                                <li className="pull-left"><Link to="/" className="nav-item nav-link">Files</Link>
+                                <li className="pull-left">
+                                    <Link to="/files" className="nav-item nav-link">Files</Link>
                                 </li>
-                                <li className="pull-left"><Link to="/pipelines"
-                                                                className="nav-item nav-link">Pipelines</Link></li>
-                                <li className="pull-left"><Link to="/runs" className="nav-item nav-link">Runs</Link>
+                                <li className="pull-left">
+                                    <Link to="/pipelines" className="nav-item nav-link">Pipelines</Link>
                                 </li>
-                                <li className="pull-left"><a onClick={this.logout}
-                                                             className="nav-item nav-link">Logout</a></li>
-                                <li className="pull-right"><p className="nav-item nav-link pull-right">{email}</p>
+                                <li className="pull-left">
+                                    <Link to="/runs" className="nav-item nav-link">Runs</Link>
+                                </li>
+                                <li className="pull-left">
+                                    <a onClick={this.logout} className="nav-item nav-link">Logout</a>
+                                </li>
+                                <li className="pull-right">
+                                <p className="nav-item nav-link pull-right">{email}</p>
                                 </li>
                             </ul>
                         </nav>
-                        }
                         <div className="jumbotron">
                             <Switch>
-                                <PrivateRoute exact path="/" component={FilesPage}/>
+                                <Route path="/files" component={FilesPage}/>
                                 <Route path="/file/:id" component={FilePage} />
                                 <Route path="/run/:id" component={StartRun}/>
                                 <Route path="/login" component={ConnectedLoginPage}/>
