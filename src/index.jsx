@@ -3,23 +3,20 @@ import { render } from 'react-dom';
 import { Router, Route, Link, Redirect, Switch} from 'react-router-dom';
 import { Provider, connect } from 'react-redux';
 
-import '@/App/App.css';
-
-import { authenticationService } from '@/_services';
-
-import { history } from '@/_helpers';
 import { PrivateRoute } from '@/_components';
 import { LoginPage } from '@/LoginPage/LoginPage';
 import { StartRun } from '@/Run/StartRun'
-import ConnectedRunsPage from './Run/RunsPage.jsx'
 import { Unauthorized } from '@/Unauthorized';
+import { FilePage } from "@/Files/File";
+import FilesPage from "@/Files/FilesPage";
+import ConnectedRunsPage from './Run/RunsPage.jsx'
 import ConnectedPipelinePage from './PipelinePage/PipelinePage.jsx';
 
+import '@/App/App.css';
 import mskLogo from "@/public/MSKCC-logo.jpg";
-import FilesPage from "@/Files/FilesPage";
-import { FilePage } from "@/Files/File";
 
 import store from '@/App/store.js';
+import { authenticationService } from '@/_services';
 
 
 class AppContainer extends React.Component {

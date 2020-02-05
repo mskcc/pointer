@@ -24,7 +24,7 @@ export function getPage(page) {
         }).then((resp) => {
             dispatch({type: FETCH_PIPELINES_FULFILLED, payload: resp.data});
         }).catch((err) => {
-            dispatch({type: FETCH_PIPELINES_ERROR, payload: err});
+            dispatch({type: FETCH_PIPELINES_ERROR, payload: err, status: err.response.status});
         });
     }
 }
