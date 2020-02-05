@@ -4,12 +4,12 @@ import { Router, Route, Link, Redirect, Switch} from 'react-router-dom';
 import { Provider, connect } from 'react-redux';
 
 import { PrivateRoute } from '@/_components';
-import { LoginPage } from '@/LoginPage/LoginPage';
 import { StartRun } from '@/Run/StartRun'
 import { Unauthorized } from '@/Unauthorized';
 import { FilePage } from "@/Files/File";
 import FilesPage from "@/Files/FilesPage";
 import ConnectedRunsPage from './Run/RunsPage.jsx'
+import ConnectedLoginPage from '@/LoginPage/LoginPage';
 import ConnectedPipelinePage from './PipelinePage/PipelinePage.jsx';
 
 import '@/App/App.css';
@@ -77,7 +77,7 @@ class AppContainer extends React.Component {
                                 <PrivateRoute exact path="/" component={FilesPage}/>
                                 <Route path="/file/:id" component={FilePage} />
                                 <Route path="/run/:id" component={StartRun}/>
-                                <Route path="/login" component={LoginPage}/>
+                                <Route path="/login" component={ConnectedLoginPage}/>
                                 <Route path="/pipelines" component={ConnectedPipelinePage}/>
                                 <Route path="/runs" component={ConnectedRunsPage}/>
                                 <Route component={Unauthorized} />

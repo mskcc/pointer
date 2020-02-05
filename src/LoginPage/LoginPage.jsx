@@ -5,15 +5,39 @@ import * as Yup from 'yup';
 import { authenticationService } from '@/_services';
 
 import './Login.css';
+import {bindActionCreators} from "redux";
+import * as loginActions from "@/LoginPage/LoginActions";
+import {connect} from "react-redux";
+
+
+const mapStateToProps = function (state) {
+    return {
+        current_user: state.loginReducer.current_user,
+    }
+};
+
+const mapDispatchToProps = function (dispatch) {
+    return bindActionCreators(loginActions, dispatch);
+};
 
 class LoginPage extends React.Component {
+
     constructor(props) {
         super(props);
 
         // redirect to home if already logged in
-        if (authenticationService.currentUserValue) {
+        if (localStorage.getItem('currentUser')) {
             this.props.history.push('/');
         }
+
+        this.login = this.login.bind(this);
+    }
+
+    login(username, password) {
+        this.props.login(username, password).then(data => {
+            const {from} = this.props.location.state || {from: {pathname: "/"}};
+            this.props.history.push('/runs');
+        });
     }
 
     render() {
@@ -30,23 +54,13 @@ class LoginPage extends React.Component {
                     })}
                     onSubmit={({ username, password }, { setStatus, setSubmitting }) => {
                         setStatus();
-                        authenticationService.login(username, password)
-                            .then(
-                                user => {
-                                    const { from } = this.props.location.state || { from: { pathname: "/" } };
-                                    this.props.history.push(from);
-                                },
-                                error => {
-                                    setSubmitting(false);
-                                    setStatus(error);
-                                }
-                            );
+                        this.login(username, password);
                     }}
                     render={({ errors, status, touched, isSubmitting }) => (
                         <div className="container">
                             <div className="row">
                                 <div className="col-md-6 offset-md-3">
-                                <h2>Login</h2>
+                                    <h2>Login</h2>
                                     <Form>
                                         <div className="form-group">
                                             <label htmlFor="username">Username</label>
@@ -78,4 +92,5 @@ class LoginPage extends React.Component {
     }
 }
 
-export { LoginPage }; 
+const ConnectedLoginPage = connect(mapStateToProps, mapDispatchToProps)(LoginPage);
+export default ConnectedLoginPage

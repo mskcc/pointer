@@ -3,10 +3,13 @@
 const API = 'http://silo:5001/v0';
 
 export const API_URL = API;
+export const UNVERSIONED_API_URL = API.replace('/v0', '');
 
 /*                */
 /*    Endpoints   */
 /*                */
+// export const LOGIN_ENDPOINT = '/login/';
+export const LOGIN_ENDPOINT = '/api-token-auth/';
 export const FILES_ENDPOINT = '/fs/files/';
 export const PIPELINES_ENDPOINT = '/run/pipelines';
 export const RUNS_ENDPOINT = '/run/runs';
@@ -21,6 +24,10 @@ export const FETCH_USER_FULFILLED = 'FETCH_USER_FULFILLED';
 export const FETCH_PATIENT_ERROR = 'FETCH_PATIENT_ERROR';
 export const FETCH_PATIENT_FULFILLED = 'FETCH_PATIENT_FULFILLED';
 export const SET_INITIAL_PATIENT_DATA = 'SET_INITIAL_PATIENT_DATA';
+
+export const LOGIN = 'LOGIN';
+export const LOGIN_FULFILLED = 'LOGIN_FULFILLED';
+export const LOGIN_ERROR = 'LOGIN_ERROR';
 export const LOGOUT = 'LOGOUT';
 
 // Files Actions
