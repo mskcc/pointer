@@ -25,11 +25,6 @@ class App extends React.Component {
 
     }
 
-    logout() {
-        // authenticationService.logout();
-        // history.push('/login');
-    }
-
     render() {
         return (
             <div id="app__container">

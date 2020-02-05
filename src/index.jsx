@@ -16,6 +16,7 @@ import '@/App/App.css';
 import mskLogo from "@/public/MSKCC-logo.jpg";
 
 import store from '@/App/store.js';
+import { history } from '@/_helpers';
 import { authenticationService } from '@/_services';
 
 
