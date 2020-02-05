@@ -11,7 +11,7 @@ import {
 
 import { authenticationService } from '@/_services';
 
-import { authHeader, handleResponse } from '@/_helpers';
+import { authHeader } from '@/_helpers';
 
 
 export function getPage(page) {
@@ -24,7 +24,11 @@ export function getPage(page) {
         }).then((resp) => {
             dispatch({type: FETCH_PIPELINES_FULFILLED, payload: resp.data});
         }).catch((err) => {
-            dispatch({type: FETCH_PIPELINES_ERROR, payload: err, status: err.response.status});
+            dispatch({
+                type: FETCH_PIPELINES_ERROR,
+                payload: err,
+                status: err.response.status
+            });
         });
     }
 }

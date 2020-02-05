@@ -8,7 +8,6 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import TableFooter from '@material-ui/core/TableFooter';
 
-import { authenticationService } from '@/_services';
 import {bindActionCreators} from "redux";
 import * as runsPageActions from "@/Run/RunsPageActions";
 import {connect} from "react-redux";
@@ -31,7 +30,6 @@ class RunsPage extends React.Component {
 
         this.state = {
             currentPage: 1,
-            currentUser: authenticationService.currentUserValue,
             runs: {
                 "results" : [],
                 "previous": null,

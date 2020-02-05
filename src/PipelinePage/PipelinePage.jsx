@@ -1,7 +1,7 @@
 import React from "react"
 import { connect } from "react-redux"
 import { bindActionCreators } from 'redux';
-import * as pipelinePageActions from '@/PipelinePage/PipelinePageActions.jsx';
+import update from 'immutability-helper';
 
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -12,6 +12,8 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import TableFooter from '@material-ui/core/TableFooter';
 
+import * as pipelinePageActions from '@/PipelinePage/PipelinePageActions.jsx';
+import * as runsPageActions from '@/Run/RunsPageActions';
 import { runService, pipelineService, authenticationService } from '@/_services';
 
 
@@ -22,7 +24,8 @@ const mapStateToProps = function (state) {
 };
 
 const mapDispatchToProps = function (dispatch) {
-    return bindActionCreators(pipelinePageActions, dispatch);
+    const mergedActions = update(pipelinePageActions, {$merge: runsPageActions});
+    return bindActionCreators(mergedActions, dispatch);
 };
 
 
@@ -30,6 +33,7 @@ class PipelinePage extends React.Component {
 
     constructor(props) {
         super(props);
+
         this.state = {
             currentPage: 1,
             currentUser: authenticationService.currentUserValue,
@@ -70,7 +74,11 @@ class PipelinePage extends React.Component {
     }
 
     startRun(event) {
-        runService.createRun(event.id).then(run => this.props.history.push("/run/" + run.id));
+        // todo: where to obtain second param request_id?
+        this.props.createRun(event.id, 'DUMMY')
+            .then(run => {
+                this.props.history.push("/run/" + run.id);
+            });
     }
 
     render() {
