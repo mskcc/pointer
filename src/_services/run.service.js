@@ -3,7 +3,6 @@ import { authHeader, handleResponse } from '@/_helpers';
 
 export const runService = {
     getRun, 
-    getRuns,
     createRun,
     updatePorts,
     updateRun
@@ -22,11 +21,6 @@ function getRun(run_id) {
     return fetch(`${config.apiUrl}/v0/run/runs/${run_id}/`, requestOptions).then(handleResponse);
 }
 
-
-function getRuns() {
-    const requestOptions = { method: 'GET', headers: authHeader() };
-    return fetch(`${config.apiUrl}/v0/run/runs/`, requestOptions).then(handleResponse);
-}
 
 function updatePorts(id, inputs, status) {
     for (var key in inputs) {

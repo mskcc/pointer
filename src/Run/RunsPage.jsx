@@ -8,8 +8,21 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import TableFooter from '@material-ui/core/TableFooter';
 
-import { runService, authenticationService } from '@/_services';
+import { authenticationService } from '@/_services';
+import {bindActionCreators} from "redux";
+import * as runsPageActions from "@/Run/RunsPageActions";
+import {connect} from "react-redux";
 
+
+const mapStateToProps = function (state) {
+    return {
+        runs_list: state.runsPageReducer.runs_list,
+    }
+};
+
+const mapDispatchToProps = function (dispatch) {
+    return bindActionCreators(runsPageActions, dispatch);
+};
 
 class RunsPage extends React.Component {
 
@@ -25,16 +38,20 @@ class RunsPage extends React.Component {
                 "next": null,
                 "count": 0
             }
-        }
+        };
         this.loadPage = this.loadPage.bind(this);
+        this.editRun = this.editRun.bind(this);
+        this.nextPage = this.nextPage.bind(this);
+        this.previousPage = this.previousPage.bind(this);
     }
 
     componentDidMount() {
         this.loadPage();
+        this.props.getRuns(1);
     }
 
     loadPage() {
-        runService.getRuns().then(runs => this.setState({runs}));
+        this.props.getRuns(1);
     }
 
     editRun(event) {
@@ -43,7 +60,7 @@ class RunsPage extends React.Component {
 
     nextPage(event) {
         this.state.currentPage = this.state.currentPage + 1;
-        this.loadPage(this.state.currentPage)
+        this.props.getRuns(this.state.currentPage)
     }
 
     previousPage(event) {
@@ -52,7 +69,11 @@ class RunsPage extends React.Component {
     }
 
     render() {
-        const { runs } = this.state
+        if (!this.props.runs_list) {
+            return (<div>Loading Runs</div>);
+        }
+
+        const { runs_list } = this.props;
         return (
             <div>
                 <Paper>
@@ -67,7 +88,7 @@ class RunsPage extends React.Component {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {runs.results.map(row => (
+                            {runs_list.results.map(row => (
                                 <TableRow key={row.id}>
                                     <TableCell>
                                         {row.id}
@@ -90,7 +111,7 @@ class RunsPage extends React.Component {
                         <TableFooter>
                             <TableRow>
                                 <TableCell>
-                                <Button align="center" variant="contained" disabled={runs.previous == null} onClick={this.previousPage}>
+                                <Button align="center" variant="contained" disabled={runs_list.previous == null} onClick={this.previousPage}>
                                     Previous
                                 </Button>
                                 </TableCell>
@@ -98,7 +119,7 @@ class RunsPage extends React.Component {
                                     Page: {this.state.currentPage}
                                 </TableCell>
                                 <TableCell align="right">
-                                <Button variant="contained" disabled={runs.next == null} onClick={this.nextPage}>
+                                <Button variant="contained" disabled={runs_list.next == null} onClick={this.nextPage}>
                                     Next
                                 </Button>
                                 </TableCell>
@@ -112,4 +133,6 @@ class RunsPage extends React.Component {
 
 }
 
-export { RunsPage }; 
+
+const ConnectedRunsPage = connect(mapStateToProps, mapDispatchToProps)(RunsPage);
+export default ConnectedRunsPage

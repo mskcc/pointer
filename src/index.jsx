@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { Router, Route, Link } from 'react-router-dom'; //NotFoundRoute
+import { Router, Route, Link, Redirect, Switch} from 'react-router-dom';
 import { Provider, connect } from 'react-redux';
 
 import '@/App/App.css';
@@ -11,12 +11,13 @@ import { history } from '@/_helpers';
 import { PrivateRoute } from '@/_components';
 import { LoginPage } from '@/LoginPage/LoginPage';
 import { StartRun } from '@/Run/StartRun'
-import { RunsPage } from '@/Run/RunsPage'
+import ConnectedRunsPage from './Run/RunsPage.jsx'
 import { Unauthorized } from '@/Unauthorized';
 import ConnectedPipelinePage from './PipelinePage/PipelinePage.jsx';
 
 import mskLogo from "@/public/MSKCC-logo.jpg";
 import FilesPage from "@/Files/FilesPage";
+import { FilePage } from "@/Files/File";
 
 import store from '@/App/store.js';
 
@@ -74,13 +75,15 @@ class AppContainer extends React.Component {
                         </nav>
                         }
                         <div className="jumbotron">
-                            <PrivateRoute exact path="/" component={FilesPage}/>
-                            {/*<Route path="/file/:id" component={FilePage} />*/}
-                            <Route path="/run/:id" component={StartRun}/>
-                            <Route path="/login" component={LoginPage}/>
-                            <Route path="/pipelines" component={ConnectedPipelinePage}/>
-                            <Route path="/runs" component={RunsPage}/>
-                            {/*<NotFoundRoute component={Unauthorized} />*/}
+                            <Switch>
+                                <PrivateRoute exact path="/" component={FilesPage}/>
+                                <Route path="/file/:id" component={FilePage} />
+                                <Route path="/run/:id" component={StartRun}/>
+                                <Route path="/login" component={LoginPage}/>
+                                <Route path="/pipelines" component={ConnectedPipelinePage}/>
+                                <Route path="/runs" component={ConnectedRunsPage}/>
+                                <Route component={Unauthorized} />
+                            </Switch>
                         </div>
                     </div>
                 </Router>

@@ -5,7 +5,7 @@ import {
 } from '../constants'
 
 
-export default function appReducer(state={
+export default function reducer(state={
     pipelines: null,
 }, action) {
 

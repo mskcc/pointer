@@ -114,6 +114,10 @@ class FilePage extends Component {
     }
 
     render() {
+      if (!this.state.file || !this.state.file.size) {
+        return (<div>Loading File</div>);
+      }
+
       const { file, path, size, file_type, file_type_ext, metadata_string, metadata_error, file_update_error, user, file_types } = this.state;
       return (
         <div>
@@ -122,7 +126,7 @@ class FilePage extends Component {
           <TextField
             disabled
             id="outlined-disabled"
-            fullWidth="true"
+            fullWidth={true}
             label="File Name"
             value={file['file_name']}
             margin="normal"
@@ -130,7 +134,7 @@ class FilePage extends Component {
           />
            <TextField
             id="outlined-name"
-            fullWidth='true'
+            fullWidth={true}
             label="Size"
             value={size}
             onChange={this.updateSize}
@@ -139,7 +143,7 @@ class FilePage extends Component {
           />
           <TextField
             id="outlined-name"
-            fullWidth='true'
+            fullWidth={true}
             label="Path"
             value={path}
             onChange={this.updatePath}
@@ -149,7 +153,7 @@ class FilePage extends Component {
           <Button onClick={this.resetPath}>Reset</Button>
           <TextField
             id="outlined-name"
-            fullWidth='true'
+            fullWidth={true}
             label="File Type"
             value={file_type}
             onChange={this.updateFileType}
@@ -170,7 +174,7 @@ class FilePage extends Component {
           <TextField
             id="outlined-multiline-flexible"
             label="Metadata"
-            fullWidth='true'
+            fullWidth={true}
             multiline
             rowsMax="100"
             value={metadata_string}

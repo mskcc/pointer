@@ -7,8 +7,9 @@ export const API_URL = API;
 /*                */
 /*    Endpoints   */
 /*                */
-export const FILES_ENDPOINT = '/fs/files/   ';
+export const FILES_ENDPOINT = '/fs/files/';
 export const PIPELINES_ENDPOINT = '/run/pipelines';
+export const RUNS_ENDPOINT = '/run/runs';
 
 /*                */
 /*    Actions     */
@@ -31,3 +32,8 @@ export const FILES_LIST_ERROR = 'FILES_LIST_ERROR';
 export const FETCH_PIPELINES = 'FETCH_PIPELINES';
 export const FETCH_PIPELINES_FULFILLED = 'FETCH_PIPELINES_FULFILLED';
 export const FETCH_PIPELINES_ERROR = 'FETCH_PIPELINES_ERROR';
+
+// Runs Actions
+export const FETCH_RUNS_LIST = 'FETCH_RUNS_LIST';
+export const FETCH_RUNS_FULFILLED = 'FETCH_RUNS_FULFILLED';
+export const FETCH_RUNS_ERROR = 'FETCH_RUNS_ERROR';
