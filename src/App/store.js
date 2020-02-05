@@ -11,9 +11,9 @@ import reducer from "./root_reducer.js"
 
 const routeMiddleware = routerMiddleware(browserHistory);
 
-const middleware = applyMiddleware(thunk); //, createLogger(), routeMiddleware);
+const middleware = applyMiddleware(thunk, createLogger(), routeMiddleware);
 
 // Redux Devtools config
-//const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-export default createStore(reducer, {}, middleware) // {}, composeEnhancers(middleware));
+export default createStore(reducer, {},  composeEnhancers(middleware));
