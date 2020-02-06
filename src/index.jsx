@@ -6,7 +6,7 @@ import { Provider, connect } from 'react-redux';
 import { PrivateRoute } from '@/_components';
 import { StartRun } from '@/Run/StartRun'
 import { Unauthorized } from '@/Unauthorized';
-import { FilePage } from "@/Files/File";
+import ConnectedFilePage from "@/Files/File";
 import FilesPage from "@/Files/FilesPage";
 import ConnectedRunsPage from './Run/RunsPage.jsx'
 import ConnectedLoginPage from '@/LoginPage/LoginPage';
@@ -78,7 +78,7 @@ class AppContainer extends React.Component {
                         <div className="jumbotron">
                             <Switch>
                                 <Route path="/files" component={FilesPage}/>
-                                <Route path="/file/:id" component={FilePage} />
+                                <Route path="/file/:id" component={ConnectedFilePage} />
                                 <Route path="/run/:id" component={StartRun}/>
                                 <Route path="/login" component={ConnectedLoginPage}/>
                                 <Route path="/pipelines" component={ConnectedPipelinePage}/>

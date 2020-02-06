@@ -11,6 +11,7 @@ export const UNVERSIONED_API_URL = API.replace('/v0', '');
 // export const LOGIN_ENDPOINT = '/login/';
 export const LOGIN_ENDPOINT = '/api-token-auth/';
 export const FILES_ENDPOINT = '/fs/files/';
+export const FILES_TYPES_ENDPOINT = '/fs/file-types/';
 export const PIPELINES_ENDPOINT = '/run/pipelines';
 export const RUNS_ENDPOINT = '/run/runs/';
 export const PORTS_ENDPOINT = '/run/port';
@@ -35,6 +36,18 @@ export const LOGOUT = 'LOGOUT';
 export const FETCH_FILES_LIST = 'FETCH_FILES_LIST';
 export const FILES_LIST_FULFILLED = 'FILES_LIST_FULFILLED';
 export const FILES_LIST_ERROR = 'FILES_LIST_ERROR';
+export const FILE_GET_FIRST = 'FILE_GET_FIRST';
+export const FILE_GET_FIRST_FULFILLED = 'FILE_GET_FIRST_FULFILLED';
+export const FILE_GET_FIRST_ERROR = 'FILE_GET_FIRST_ERROR';
+export const FILE_GET = 'FILE_GET';
+export const FILE_GET_FULFILLED = 'FILE_GET_FULFILLED';
+export const FILE_GET_ERROR = 'FILE_GET_ERROR';
+export const FILE_GET_TYPES = 'FILE_GET_TYPES';
+export const FILE_GET_TYPES_FULFILLED = 'FILE_GET_TYPES_FULFILLED';
+export const FILE_GET_TYPES_ERROR = 'FILE_GET_TYPES_ERROR';
+export const UPDATE_FILE = 'UPDATE_FILE';
+export const UPDATE_FILE_FULFILLED = 'UPDATE_FILE_FULFILLED';
+export const UPDATE_FILE_ERROR = 'UPDATE_FILE_ERROR';
 
 // Pipelines Actions
 export const FETCH_PIPELINES = 'FETCH_PIPELINES';
