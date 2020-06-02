@@ -1,5 +1,6 @@
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
+const port = process.env.PORT || 8080;
 
 module.exports = {
     mode: 'development',
@@ -46,7 +47,8 @@ module.exports = {
         new HtmlWebpackPlugin({template: './src/index.html'})
     ],
     devServer: {
-        historyApiFallback: true 
+        historyApiFallback: true,
+        port: port
     },
     externals: {
         // global app config object
