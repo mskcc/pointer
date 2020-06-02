@@ -42,7 +42,7 @@ class App extends React.Component {
         return (
             <div>
             <header className="header">
-                    <img src={mskLogo} className="logo"/> 
+                    <img src={mskLogo} className="logo"/>
                     <div className="title">Voyager</div>
             </header>
             <Router history={history}>
@@ -74,4 +74,4 @@ class App extends React.Component {
     }
 }
 
-export { App }; 
+export { App };
