@@ -1,5 +1,6 @@
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
+const port = process.env.PORT || 8080;
 
 module.exports = {
     mode: 'development',
@@ -17,13 +18,13 @@ module.exports = {
                 use:['style-loader','css-loader']
             },
             {
-                test: /\.(png|jp(e*)g|svg)$/,  
+                test: /\.(png|jp(e*)g|svg)$/,
                 use: [{
                     loader: 'url-loader',
-                    options: { 
+                    options: {
                         limit: 8000, // Convert images < 8kb to base64 strings
                         name: 'public/[hash]-[name].[ext]'
-                    } 
+                    }
                 }]
             },
             {
@@ -46,7 +47,8 @@ module.exports = {
         new HtmlWebpackPlugin({template: './src/index.html'})
     ],
     devServer: {
-        historyApiFallback: true 
+        historyApiFallback: true,
+        port: port
     },
     externals: {
         // global app config object

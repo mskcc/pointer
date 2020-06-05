@@ -46,11 +46,13 @@ function refresh() {
     };
     return fetch(`${config.apiUrl}/api-token-refresh/`, requestOptions)
     .then(handleResponse)
-        .then(user => {
+        .then(accessToken => {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
-            localStorage.setItem('currentUser', JSON.stringify(user));
-            currentUserSubject.next(user);
+            var userInfo = JSON.parse(user);
+            userInfo['access'] = accessToken['access'];
+            localStorage.setItem('currentUser', JSON.stringify(userInfo));
+            currentUserSubject.next(userInfo);
 
-            return user;
+            return userInfo;
         });
 }
