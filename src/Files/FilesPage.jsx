@@ -30,7 +30,10 @@ class FilesPage extends React.Component {
             file_type_search: null,
             metadata_search: null,
             file_name_search: null,
-            file_name_regex_search: null
+            file_name_regex_search: null,
+            values_metadata: [],
+            metadata_distribution: null,
+            count: null
         }};
         this.nextPage = this.nextPage.bind(this);
         this.previousPage = this.previousPage.bind(this);
@@ -49,7 +52,7 @@ class FilesPage extends React.Component {
     }
 
     loadPage() {
-        fileService.getPageSearch(this.state.currentPage, this.state.file_group_search, this.state.file_type_search, this.state.metadata_search, this.state.file_name_search, this.state.file_name_regex_search).then(files => this.setState({ files }));
+        fileService.getPageSearch(this.state.currentPage, this.state.file_group_search, this.state.file_type_search, this.state.metadata_search, this.state.file_name_search, this.state.file_name_regex_search, this.state.values_metadata, this.state.metadata_distribution, this.state.count).then(files => this.setState({ files }));
     }
 
     nextPage(event) {
@@ -90,7 +93,7 @@ class FilesPage extends React.Component {
         this.state.currentPage = 1;
         this.loadPage();
         this.setState({
-            file_group_search: '', 
+            file_group_search: '',
             file_type_search: '',
             metadata_search: '',
             file_name_search: '',
