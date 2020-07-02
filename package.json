@@ -3,7 +3,7 @@
     "version": "0.1.0",
     "repository": {
         "type": "git",
-        "url": "https://github.com/cornflourblue/react-jwt-authentication-example.git"
+        "url": "https://github.com/mskcc/pointer.git"
     },
     "license": "MIT",
     "scripts": {
