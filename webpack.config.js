@@ -1,6 +1,7 @@
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
-const port = process.env.PORT || 8080;
+const port = process.env.POINTER_PORT || 8080;
+const beagleUrl = process.env.BEAGLE_URL || '';
 
 module.exports = {
     mode: 'development',
@@ -53,7 +54,7 @@ module.exports = {
     externals: {
         // global app config object
         config: JSON.stringify({
-            apiUrl: 'http://localhost:8000'
+            apiUrl: beagleUrl
         })
     },
     output: {

@@ -10,6 +10,7 @@ import { LoginPage } from '@/LoginPage';
 import { PipelinePage } from '@/PipelinePage';
 import { StartRun } from '@/Run'
 import { RunsPage } from '@/Run'
+import { SummaryPage } from '@/Summary'
 
 import './App.css';
 import mskLogo from '../public/MSKCC-logo.jpg';
@@ -65,6 +66,7 @@ class App extends React.Component {
                             <Route path="/login" component={LoginPage} />
                             <Route path="/pipelines" component={PipelinePage} />
                             <Route path="/runs" component={RunsPage} />
+                            <Route path="/summary" component={SummaryPage} />
                             {/* <NotFoundRoute component={Unauthorized} /> */}
                     </div>
                 </div>
