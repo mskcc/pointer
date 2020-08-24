@@ -1,4 +1,8 @@
-import React from 'react';
+import React from "react"
+import { connect } from "react-redux"
+import { bindActionCreators } from 'redux';
+import update from 'immutability-helper';
+
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -8,12 +12,28 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import TableFooter from '@material-ui/core/TableFooter';
 
+import * as pipelinePageActions from '@/PipelinePage/PipelinePageActions.jsx';
+import * as runsPageActions from '@/Run/RunsPageActions';
 import { runService, pipelineService, authenticationService } from '@/_services';
+
+
+const mapStateToProps = function (state) {
+    return {
+        pipelines: state.pipelinePageReducer.pipelines,
+    }
+};
+
+const mapDispatchToProps = function (dispatch) {
+    const mergedActions = update(pipelinePageActions, {$merge: runsPageActions});
+    return bindActionCreators(mergedActions, dispatch);
+};
+
 
 class PipelinePage extends React.Component {
 
     constructor(props) {
         super(props);
+
         this.state = {
             currentPage: 1,
             currentUser: authenticationService.currentUserValue,
@@ -32,11 +52,11 @@ class PipelinePage extends React.Component {
     }
 
     componentDidMount() {
-        this.loadPage();
+        setTimeout(this.loadPage, 1000);
     }
 
     loadPage() {
-        pipelineService.getPage(this.state.currentPage).then(pipelines => this.setState({ pipelines }));
+        this.props.getPage(this.state.currentPage);
     }
 
     nextPage(event) {
@@ -54,11 +74,19 @@ class PipelinePage extends React.Component {
     }
 
     startRun(event) {
-        runService.createRun(event.id).then(run => this.props.history.push("/run/" + run.id));
+        // todo: where to obtain second param request_id?
+        this.props.createRun(event.id, 'DUMMY')
+            .then(run => {
+                this.props.history.push("/run/" + run.id);
+            });
     }
 
     render() {
-        const { pipelines } = this.state
+        if (!this.props.pipelines) {
+            return (<div>Loading Pipelines</div>);
+        }
+
+        const { pipelines } = this.props;
         return (
             <div>
                 <Paper>
@@ -124,4 +152,5 @@ class PipelinePage extends React.Component {
 
 }
 
-export { PipelinePage }; 
+const ConnectedPipelinePage = connect(mapStateToProps, mapDispatchToProps)(PipelinePage);
+export default ConnectedPipelinePage

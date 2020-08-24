@@ -1,12 +1,27 @@
 import React, { Component } from 'react';
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
 import Box from '@material-ui/core/Box';
+import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import InputLabel from '@material-ui/core/InputLabel';
-import Select from '@material-ui/core/Select';
-import { fileService, authenticationService } from '@/_services';
 import { Button } from '@material-ui/core';
 
+import { authenticationService } from '@/_services';
+import * as fileActions from "@/Files/FileActions";
+
+
+const mapStateToProps = function (state) {
+    return {
+        file: state.fileReducer.file,
+        file_types: state.fileReducer.file_types,
+    }
+};
+
+const mapDispatchToProps = function (dispatch) {
+    return bindActionCreators(fileActions, dispatch);
+};
 
 class FilePage extends Component {
 
@@ -38,23 +53,12 @@ class FilePage extends Component {
     if (authenticationService.currentUserValue == null) {
         this.props.history.push({pathname: "/", state: { from: "/file" }})
     }
-    this.getFile(this.props.match.params.id)
-    fileService.getFileTypes().then(file_types => this.setState({ file_types }));
+    this.props.getFile(this.props.match.params.id);
+    this.props.getFileTypes();
   }
 
   getFile(file_id) {
-    fileService.getFile(file_id).then(file => this.setState({ 
-      file: file, 
-      path: file.path,
-      size: file.size,
-      file_type: file.file_type,
-      file_type_ext: file.file_type,
-      metadata: file.metadata,
-      metadata_string: JSON.stringify(file.metadata, null, 2),
-      metadata_error: '',
-      file_update_error: '',
-      user: file.user
-    }))
+    this.props.getFile(file_id);
   }
 
   updatePath(event, value) {
@@ -90,31 +94,26 @@ class FilePage extends Component {
   }
 
   updateFile() {
-    if (this.state.metadata_error != "") {
+    if (this.state.metadata_error !== "") {
       this.setState({file_update_error: 'Fix error'})
-    }
-    else{
-      fileService.updateFile(
-        this.state.file.id, 
-        this.state.path, 
+    } else {
+      this.props.updateFile(
+        this.state.file.id,
+        this.state.path,
         this.state.size,
         this.state.file_type,
-        this.state.metadata).then(file => this.setState({ 
-          file: file, 
-          path: file.path,
-          size: file.size,
-          file_type: file.file_type,
-          metadata: file.metadata,
-          metadata_string: JSON.stringify(file.metadata, null, 2),
-          metadata_error: '',
-          file_update_error: '',
-          user: file.user
-        })).catch(error => { this.setState({ file_update_error: error })});
+        this.state.metadata)
       }
     }
 
     render() {
-      const { file, path, size, file_type, file_type_ext, metadata_string, metadata_error, file_update_error, user, file_types } = this.state;
+      if (!this.props.file || !this.props.file.size) {
+        return (<div>Loading File</div>);
+      }
+
+      const { file, metadata_error, file_update_error, user, file_types } = this.props;
+      const metadata_string = JSON.stringify(file.metadata, null, 2);
+
       return (
         <div>
           Last updated by: {user}
@@ -122,26 +121,26 @@ class FilePage extends Component {
           <TextField
             disabled
             id="outlined-disabled"
-            fullWidth="true"
+            fullWidth={true}
             label="File Name"
-            value={file['file_name']}
+            value={file.file_name}
             margin="normal"
             variant="outlined"
           />
            <TextField
             id="outlined-name"
-            fullWidth='true'
+            fullWidth={true}
             label="Size"
-            value={size}
+            value={file.size}
             onChange={this.updateSize}
             margin="normal"
             variant="outlined"
           />
           <TextField
             id="outlined-name"
-            fullWidth='true'
+            fullWidth={true}
             label="Path"
-            value={path}
+            value={file.path}
             onChange={this.updatePath}
             margin="normal"
             variant="outlined"
@@ -149,9 +148,9 @@ class FilePage extends Component {
           <Button onClick={this.resetPath}>Reset</Button>
           <TextField
             id="outlined-name"
-            fullWidth='true'
+            fullWidth={true}
             label="File Type"
-            value={file_type}
+            value={file.file_type}
             onChange={this.updateFileType}
             margin="normal"
             variant="outlined"
@@ -170,7 +169,7 @@ class FilePage extends Component {
           <TextField
             id="outlined-multiline-flexible"
             label="Metadata"
-            fullWidth='true'
+            fullWidth={true}
             multiline
             rowsMax="100"
             value={metadata_string}
@@ -188,4 +187,5 @@ class FilePage extends Component {
     }
 }
 
-export { FilePage };
+const ConnectedFilePage = connect(mapStateToProps, mapDispatchToProps)(FilePage);
+export default ConnectedFilePage
