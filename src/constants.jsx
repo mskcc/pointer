@@ -1,6 +1,8 @@
 // Configuration for backend API
 // Todo: have a DEV_API_URL as well
-const API = 'http://silo:5001/v0';
+import config from 'config';
+
+const API = config.apiUrl.concat('/v0');
 
 export const API_URL = API;
 export const UNVERSIONED_API_URL = API.replace('/v0', '');
