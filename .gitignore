@@ -40,3 +40,6 @@ dist
 
 # WebStorm
 .idea
+
+#Store file
+.DS_Store
