@@ -1,16 +1,12 @@
 import axios from 'axios';
 
-import {
-    UNVERSIONED_API_URL,
-    LOGIN_ENDPOINT,
-    LOGIN,
-    LOGIN_FULFILLED,
-    LOGIN_ERROR,
-} from '../constants';
+import { UNVERSIONED_API_URL, LOGIN_ENDPOINT, SERVER_DOWN } from '../constants';
+
+import { LOGIN, LOGIN_FULFILLED, LOGIN_ERROR } from './LoginReducer';
 
 export function login(username, password) {
     return function (dispatch) {
-        dispatch({ type: LOGIN });
+        dispatch(LOGIN());
 
         return axios
             .post(UNVERSIONED_API_URL + LOGIN_ENDPOINT, {
@@ -20,14 +16,26 @@ export function login(username, password) {
             .then((resp) => {
                 // Todo: ok to not use currentUserSubject anymore? and only localStorage?
                 localStorage.setItem('currentUser', JSON.stringify(resp.data));
-                dispatch({ type: LOGIN_FULFILLED, payload: resp.data });
+                dispatch(LOGIN_FULFILLED({ data: resp.data }));
             })
             .catch((err) => {
-                dispatch({
-                    type: LOGIN_ERROR,
-                    payload: err,
-                    status: err.response.status,
-                });
+                let data = {};
+                let status = null;
+                if (!err.response) {
+                    data = {
+                        detail: SERVER_DOWN,
+                    };
+                    status = 503;
+                } else {
+                    data = err.response.data;
+                    status = err.response.status;
+                }
+                dispatch(
+                    LOGIN_ERROR({
+                        data: data,
+                        status: status,
+                    })
+                );
             });
     };
 }
