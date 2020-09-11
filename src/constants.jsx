@@ -74,3 +74,7 @@ export const UPDATE_PORT_ERROR = 'UPDATE_PORT_ERROR';
 export const UPDATE_RUN = 'UPDATE_RUN';
 export const UPDATE_RUN_FULFILLED = 'UPDATE_RUN_FULFILLED';
 export const UPDATE_RUN_ERROR = 'UPDATE_RUN_ERROR';
+
+// Messagess
+export const SERVER_DOWN =
+    'Oops! It looks like our servers are down. We are working on bringing them back up as soon as possible.';
