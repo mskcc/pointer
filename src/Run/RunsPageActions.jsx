@@ -95,15 +95,95 @@ export function updateRun(id, status) {
         return axios
             .put(API_URL + RUNS_ENDPOINT + '/${id}', {
                 params: {
-                    run_id: unescape(id),
+                    run_ids: handleArrayParam(id),
                 },
                 headers: authHeader(),
             })
             .then((resp) => {
-                dispatch({ type: UPDATE_RUN_FULFILLED, payload: resp.data });
+                dispatch(UPDATE_RUN_FULFILLED({ data: resp.data }));
             })
             .catch((err) => {
-                dispatch({ type: UPDATE_RUN_ERROR, payload: err, status: err.response.status });
+                const { data, status } = handleError(err);
+                dispatch(
+                    UPDATE_RUN_ERROR({
+                        data: data,
+                        status: status,
+                    })
+                );
+            });
+    };
+}
+
+export function loadRunsList({
+    page = null,
+    page_size = null,
+    status = null,
+    job_groups = [],
+    apps = [],
+    ports = [],
+    tags = [],
+    request_ids = [],
+    jira_ids = [],
+    run_ids = [],
+    values_run = [],
+    run_distribution = null,
+    run = [],
+    full = false,
+    count = false,
+    created_date_timedelta = null,
+    created_date_gt = null,
+    created_date_lt = null,
+    modified_date_timedelta = null,
+    modified_date_gt = null,
+    modified_date_lt = null,
+    state_key,
+} = {}) {
+    return function (dispatch) {
+        dispatch(FETCH_RUNS_LIST({ state_key: state_key }));
+
+        let params = {};
+        handleSingleParam(params, 'page', page);
+        handleSingleParam(params, 'page_size', page_size);
+        handleSingleParam(params, 'status', status);
+        handleArrayParam(params, 'job_groups', job_groups);
+        handleArrayParam(params, 'apps', apps);
+        handleArrayParam(params, 'ports', ports);
+        handleArrayParam(params, 'tags', tags);
+        handleArrayParam(params, 'request_ids', request_ids);
+        handleArrayParam(params, 'jira_ids', jira_ids);
+        handleArrayParam(params, 'run_ids', run_ids);
+        handleArrayParam(params, 'values_run', values_run);
+        handleSingleParam(params, 'run_distribution', run_distribution);
+        handleArrayParam(params, 'run', run);
+        handleSingleBoolParam(params, 'full', full);
+        handleSingleBoolParam(params, 'count', count);
+        handleSingleParam(params, 'created_date_timedelta', created_date_timedelta);
+        handleSingleParam(params, 'created_date_gt', created_date_gt);
+        handleSingleParam(params, 'created_date_lt', created_date_lt);
+        handleSingleParam(params, 'modified_date_timedelta', modified_date_timedelta);
+        handleSingleParam(params, 'modified_date_gt', modified_date_gt);
+        handleSingleParam(params, 'modified_date_lt', modified_date_lt);
+
+        return axios
+            .get(API_URL + RUNS_ENDPOINT, {
+                params: params,
+                paramsSerializer: function (params) {
+                    return qs.stringify(params, { arrayFormat: 'repeat' });
+                },
+                headers: authHeader(),
+            })
+            .then((resp) => {
+                dispatch(RUNS_LIST_FULFILLED({ data: resp.data, state_key: state_key }));
+            })
+            .catch((err) => {
+                const { data, status } = handleError(err);
+                dispatch(
+                    RUNS_LIST_ERROR({
+                        data: data,
+                        status: status,
+                        state_key: state_key,
+                    })
+                );
             });
     };
 }

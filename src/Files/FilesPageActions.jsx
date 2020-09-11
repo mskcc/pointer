@@ -1,49 +1,87 @@
 import axios from 'axios';
 
+import { API_URL, FILES_ENDPOINT, SERVER_DOWN } from '../constants';
+
+import { FETCH_FILES_LIST, FILES_LIST_FULFILLED, FILES_LIST_ERROR } from './FilesPageReducer';
+
 import {
-    API_URL,
-    FILES_ENDPOINT,
-    FETCH_FILES_LIST,
-    FILES_LIST_FULFILLED,
-    FILES_LIST_ERROR,
-} from '../constants';
+    authHeader,
+    handleError,
+    handleSingleParam,
+    handleSingleBoolParam,
+    handleArrayParam,
+} from '@/_helpers';
 
-import { authHeader } from '@/_helpers';
+import qs from 'qs';
 
-export function loadFilesList(page, file_group, file_type, metadata, filename, filename_regex) {
+export function loadFilesList({
+    page = null,
+    page_size = null,
+    file_group = [],
+    path = [],
+    metadata = [],
+    metadata_regex = [],
+    path_regex = null,
+    filename = [],
+    filename_regex = null,
+    file_type = [],
+    values_metadata = [],
+    metadata_distribution = null,
+    count = false,
+    created_date_timedelta = null,
+    created_date_gt = null,
+    created_date_lt = null,
+    modified_date_timedelta = null,
+    modified_date_gt = null,
+    modified_date_lt = null,
+    state_key,
+} = {}) {
     return function (dispatch) {
-        dispatch({ type: FETCH_FILES_LIST });
+        dispatch(FETCH_FILES_LIST({ state_key: state_key }));
 
-        let params = {
-            page: unescape(page),
-        };
+        let params = {};
+        handleSingleParam(params, 'page', page);
+        handleSingleParam(params, 'page_size', page_size);
+        handleArrayParam(params, 'file_group', file_group);
+        handleArrayParam(params, 'path', path);
+        handleArrayParam(params, 'metadata', metadata);
+        handleArrayParam(params, 'metadata_regex', metadata_regex);
+        handleSingleParam(params, 'path_regex', path_regex);
+        handleArrayParam(params, 'filename', filename);
+        handleSingleParam(params, 'filename_regex', filename_regex);
+        handleArrayParam(params, 'file_type', file_type);
+        handleArrayParam(params, 'values_metadata', values_metadata);
+        console.log(metadata_distribution);
+        handleSingleParam(params, 'metadata_distribution', metadata_distribution);
+        handleSingleBoolParam(params, 'count', count);
+        handleSingleParam(params, 'created_date_timedelta', created_date_timedelta);
+        handleSingleParam(params, 'created_date_gt', created_date_gt);
+        handleSingleParam(params, 'created_date_lt', created_date_lt);
+        handleSingleParam(params, 'modified_date_timedelta', modified_date_timedelta);
+        handleSingleParam(params, 'modified_date_gt', modified_date_gt);
+        handleSingleParam(params, 'modified_date_lt', modified_date_lt);
+        console.log(params);
 
-        if (file_group != null && file_group !== '') {
-            params.file_group = file_group;
-        }
-        if (file_type != null && file_type !== '') {
-            params.file_type = file_type;
-        }
-        if (metadata != null && metadata !== '') {
-            params.metadata = metadata;
-        }
-        if (filename != null && filename !== '') {
-            params.filename = filename;
-        }
-        if (filename_regex != null && filename_regex !== '') {
-            params.filename_regex = filename_regex;
-        }
-
-        axios
+        return axios
             .get(API_URL + FILES_ENDPOINT, {
                 params: params,
+                paramsSerializer: function (params) {
+                    return qs.stringify(params, { arrayFormat: 'repeat' });
+                },
                 headers: authHeader(),
             })
             .then((resp) => {
-                dispatch({ type: FILES_LIST_FULFILLED, payload: resp.data });
+                dispatch(FILES_LIST_FULFILLED({ data: resp.data, state_key: state_key }));
             })
             .catch((err) => {
-                dispatch({ type: FILES_LIST_ERROR, payload: err, status: err.response.status });
+                const { data, status } = handleError(err);
+                dispatch(
+                    FILES_LIST_ERROR({
+                        data: data,
+                        status: status,
+                        state_key: state_key,
+                    })
+                );
             });
     };
 }
