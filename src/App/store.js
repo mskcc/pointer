@@ -2,31 +2,40 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { Router, Route, browserHistory } from 'react-router';
 import { syncHistoryWithStore, routerReducer, routerMiddleware, push } from 'react-router-redux';
 
-import { createLogger } from 'redux-logger';
-import thunk from 'redux-thunk';
+import { logger } from 'redux-logger';
 import promise from 'redux-promise-middleware';
-
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import reducer from './root_reducer.js';
-
+import { LOGIN_ERROR } from '@/LoginPage/LoginReducer';
 import { history } from '@/_helpers';
 import { currentUserSubject } from '@/_services';
 
 const routeMiddleware = routerMiddleware(browserHistory);
 
 const authInterceptor = ({ dispatch }) => (next) => (action) => {
-    if (action.status === 401 || action.status === 403) {
-        localStorage.removeItem('currentUser');
-        currentUserSubject.next(null);
-        history.push(`/login`);
+    let status = null;
+    if (action.payload && 'status' in action.payload) {
+        status = action.payload.status;
+    }
+    if (status === 401 || status === 403) {
+        if (action.type != String(LOGIN_ERROR)) {
+            localStorage.removeItem('currentUser');
+            currentUserSubject.next(null);
+            history.push(`/login`);
+        } else {
+            next(action);
+        }
         // dispatch(actions.removeJwt());
     } else {
         next(action);
     }
 };
 
-const middleware = applyMiddleware(thunk, createLogger(), routeMiddleware, authInterceptor);
+const middleware = [...getDefaultMiddleware(), logger, routeMiddleware, authInterceptor];
 
-// Redux Devtools config
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = configureStore({
+    reducer: reducer,
+    middleware: middleware,
+});
 
-export default createStore(reducer, {}, composeEnhancers(middleware));
+export default store;
