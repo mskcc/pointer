@@ -17,7 +17,9 @@ export const FILES_TYPES_ENDPOINT = '/fs/file-types/';
 export const PIPELINES_ENDPOINT = '/run/pipelines';
 export const RUNS_ENDPOINT = '/run/runs/';
 export const PORTS_ENDPOINT = '/run/port';
-
+export const FILES_GROUP_ENDPOINT = '/fs/file-groups/';
+export const ASSAY_ENDPOINT = '/etl/assay';
+export const ONCOTREE_ENDPOINT = 'http://oncotree.mskcc.org/api/tumorTypes';
 /*                */
 /*    Actions     */
 /*                */
