@@ -1,4 +1,4 @@
-var palette = require('google-palette');
+import * as palette from 'google-palette';
 
 export function getColors(dataSize) {
     if (dataSize) {
