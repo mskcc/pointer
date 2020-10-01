@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { authHeader } from '@/_helpers';
 
-import { API_URL, ASSAY_ENDPOINT, SERVER_DOWN, ONCOTREE_ENDPOINT } from '../constants';
-
+import { API_URL, ASSAY_ENDPOINT, ONCOTREE_ENDPOINT } from '../constants';
+import { SERVER_DOWN } from '../UserMessages';
 import {
     FETCH_ASSAY,
     FETCH_ASSAY_ERROR,

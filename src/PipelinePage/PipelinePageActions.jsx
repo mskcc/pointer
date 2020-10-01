@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-import { API_URL, PIPELINES_ENDPOINT, SERVER_DOWN } from '../constants';
+import { API_URL, PIPELINES_ENDPOINT } from '../constants';
+
+import { SERVER_DOWN } from '../UserMessages';
 
 import {
     FETCH_PIPELINES,

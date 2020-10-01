@@ -101,5 +101,6 @@ export const {
     UPDATE_PORT_ERROR,
     UPDATE_RUN,
     UPDATE_RUN_FULFILLED,
+    UPDATE_RUN_ERROR,
 } = runPageReducer.actions;
 export default runPageReducer.reducer;
