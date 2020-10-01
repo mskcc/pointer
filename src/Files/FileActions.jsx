@@ -2,13 +2,9 @@ import { authHeader } from '@/_helpers';
 
 import axios from 'axios';
 
-import {
-    API_URL,
-    FILES_ENDPOINT,
-    FILES_TYPES_ENDPOINT,
-    FILES_GROUP_ENDPOINT,
-    SERVER_DOWN,
-} from '../constants';
+import { API_URL, FILES_ENDPOINT, FILES_TYPES_ENDPOINT, FILES_GROUP_ENDPOINT } from '../constants';
+
+import { SERVER_DOWN } from '../UserMessages';
 
 import {
     FILE_GET_FIRST,
