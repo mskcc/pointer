@@ -51,6 +51,10 @@ const useStyles = (theme) => ({
     submit: {
         margin: theme.spacing(3, 0, 2),
     },
+    progressSpinner: {
+        width: '1.5rem !important',
+        height: '1.5rem !important',
+    },
 });
 
 class LoginPage extends React.Component {
@@ -63,35 +67,11 @@ class LoginPage extends React.Component {
         }
 
         this.login = this.login.bind(this);
-        /*      const formik = useFormik({
-            initialValues: {
-                username: '',
-                password: '',
-            },
-            validationSchema: Yup.object().shape({
-                username: Yup.string().required('Username is required'),
-                password: Yup.string().required('Password is required'),
-            }),
-            onSubmit: ({ username, password }, { setStatus, setSubmitting }) => {
-                setStatus();
-                this.login(username, password);
-            },
-        });
-        console.log(formik);
-        this.setState({
-            formik: formik,
-        });*/
     }
 
     login(username, password) {
         const login = this.props.login(username, password);
         return login;
-        //.then((data) => {
-        //    console.log(data);
-        //    console.log(this.props);
-        //const { from } = this.props.location.state || { from: { pathname: '/' } };
-        //this.props.history.push('/pipelines');
-        //});
     }
 
     render() {
@@ -126,7 +106,6 @@ class LoginPage extends React.Component {
                             this.login(username, password).then(() => {
                                 setSubmitting(false);
                                 if (this.props.current_user_error) {
-                                    console.log('b');
                                     setErrors({ password: this.props.current_user_error.detail });
                                 } else {
                                     history.push('/summary');
@@ -183,14 +162,13 @@ class LoginPage extends React.Component {
                                     color="primary"
                                     className={classes.submit}
                                     disabled={isSubmitting}
+                                    endIcon={
+                                        isSubmitting ? (
+                                            <CircularProgress className={classes.progressSpinner} />
+                                        ) : null
+                                    }
                                 >
                                     Sign In
-                                    {isSubmitting && (
-                                        <div>
-                                            &nbsp;&nbsp;
-                                            <CircularProgress />{' '}
-                                        </div>
-                                    )}
                                 </Button>
                             </form>
                         )}

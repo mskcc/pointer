@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-import { UNVERSIONED_API_URL, LOGIN_ENDPOINT, SERVER_DOWN } from '../constants';
-
+import { UNVERSIONED_API_URL, LOGIN_ENDPOINT } from '../constants';
+import { SERVER_DOWN } from '../UserMessages';
 import { LOGIN, LOGIN_FULFILLED, LOGIN_ERROR } from './LoginReducer';
 
 export function login(username, password) {
