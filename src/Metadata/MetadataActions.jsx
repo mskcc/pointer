@@ -1,35 +1,17 @@
 import axios from 'axios';
 import { authHeader } from '@/_helpers';
 
-import { API_URL, ASSAY_ENDPOINT, SERVER_DOWN, ONCOTREE_ENDPOINT } from '../constants';
+import { API_URL, FILE_BATCH_PATCH_ENDPOINT } from '../constants';
+import { SERVER_DOWN } from '../UserMessages';
+import { PROCESS_UPDATE, PROCESS_UPDATE_ERROR, PROCESS_UPDATE_FULFILLED } from './MetadataReducer';
 
-import {
-    FETCH_ASSAY,
-    FETCH_ASSAY_ERROR,
-    FETCH_ASSAY_FULFILLED,
-    FETCH_ONCOTREE,
-    FETCH_ONCOTREE_ERROR,
-    FETCH_ONCOTREE_FULFILLED,
-} from './MetadataReducer';
-
-function buildMetaDataQuery(key, valueList) {
-    var queryList = [];
-    for (const singleValue of valueList) {
-        const singleQuery = key + ':' + singleValue;
-        queryList.push(singleQuery);
-    }
-    return queryList;
-}
-
-export function getAssay() {
+export function updateMetadata(data) {
     return function (dispatch) {
-        dispatch(FETCH_ASSAY());
+        dispatch(PROCESS_UPDATE());
         return axios
-            .get(API_URL + ASSAY_ENDPOINT, {
-                headers: authHeader(),
-            })
+            .post(API_URL + FILE_BATCH_PATCH_ENDPOINT, data, { headers: authHeader() })
             .then((resp) => {
-                dispatch(FETCH_ASSAY_FULFILLED({ data: resp.data }));
+                dispatch(PROCESS_UPDATE_FULFILLED({ data: resp.data }));
             })
             .catch((err) => {
                 let data = {};
@@ -43,32 +25,7 @@ export function getAssay() {
                     data = err.response.data;
                     status = err.response.status;
                 }
-                dispatch(FETCH_ASSAY_ERROR({ data: data, status: status }));
-            });
-    };
-}
-
-export function getOncoTree() {
-    return function (dispatch) {
-        dispatch(FETCH_ONCOTREE());
-        return axios
-            .get(ONCOTREE_ENDPOINT, {})
-            .then((resp) => {
-                dispatch(FETCH_ONCOTREE_FULFILLED({ data: resp.data }));
-            })
-            .catch((err) => {
-                let data = {};
-                let status = null;
-                if (!err.response) {
-                    data = {
-                        detail: SERVER_DOWN,
-                    };
-                    status = 503;
-                } else {
-                    data = err.response.data;
-                    status = err.response.status;
-                }
-                dispatch(FETCH_ONCOTREE_ERROR({ data: data, status: status }));
+                dispatch(PROCESS_UPDATE_ERROR({ data: data, status: status }));
             });
     };
 }
