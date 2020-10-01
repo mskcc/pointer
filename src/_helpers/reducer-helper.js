@@ -16,6 +16,10 @@ export function setupInitialState(initalValues) {
     return initialState;
 }
 
+export function getInitialValue(initalValues, action) {
+    return initalValues[action.payload.state_key];
+}
+
 export function getStateKeys(action) {
     let fetching = action.payload.state_key.concat('_fetching');
     let fulfilled = action.payload.state_key.concat('_fulfilled');
