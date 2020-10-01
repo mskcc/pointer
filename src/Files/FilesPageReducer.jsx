@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { setupInitialState, getStateKeys } from '@/_helpers';
+import { setupInitialState, getInitialValue, getStateKeys } from '@/_helpers';
 
 const initialFilePageValues = {
     files_list: null,
@@ -10,6 +10,7 @@ const initialFilePageValues = {
     numArgosRequests: 0,
     numArgosSamples: 0,
     distArgosOncoTree: {},
+    file_metadata: {},
 };
 
 const initialFilePageState = setupInitialState(initialFilePageValues);
@@ -21,6 +22,9 @@ const filePageReducer = createSlice({
         FETCH_FILES_LIST: (state, action) => {
             let stateKeys = getStateKeys(action);
             state[stateKeys.fetching] = true;
+            state[stateKeys.fulfilled] = false;
+            state[stateKeys.state_key] = getInitialValue(initialFilePageValues, action);
+            state[stateKeys.error] = null;
         },
         FILES_LIST_FULFILLED: (state, action) => {
             let stateKeys = getStateKeys(action);
@@ -31,6 +35,7 @@ const filePageReducer = createSlice({
         FILES_LIST_ERROR: (state, action) => {
             let stateKeys = getStateKeys(action);
             state[stateKeys.fetching] = false;
+            state[stateKeys.state_key] = getInitialValue(initialFilePageValues, action);
             state[stateKeys.error] = action.payload.data;
         },
     },

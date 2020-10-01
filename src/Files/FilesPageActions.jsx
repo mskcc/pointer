@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-import { API_URL, FILES_ENDPOINT, SERVER_DOWN } from '../constants';
-
+import { API_URL, FILES_ENDPOINT } from '../constants';
+import { SERVER_DOWN } from '../UserMessages';
 import { FETCH_FILES_LIST, FILES_LIST_FULFILLED, FILES_LIST_ERROR } from './FilesPageReducer';
 
 import {
@@ -51,7 +51,6 @@ export function loadFilesList({
         handleSingleParam(params, 'filename_regex', filename_regex);
         handleArrayParam(params, 'file_type', file_type);
         handleArrayParam(params, 'values_metadata', values_metadata);
-        console.log(metadata_distribution);
         handleSingleParam(params, 'metadata_distribution', metadata_distribution);
         handleSingleBoolParam(params, 'count', count);
         handleSingleParam(params, 'created_date_timedelta', created_date_timedelta);
@@ -60,7 +59,6 @@ export function loadFilesList({
         handleSingleParam(params, 'modified_date_timedelta', modified_date_timedelta);
         handleSingleParam(params, 'modified_date_gt', modified_date_gt);
         handleSingleParam(params, 'modified_date_lt', modified_date_lt);
-        console.log(params);
 
         return axios
             .get(API_URL + FILES_ENDPOINT, {
