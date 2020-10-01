@@ -1,4 +1,4 @@
-import { SERVER_DOWN } from '../constants';
+import { SERVER_DOWN } from '../UserMessages';
 // Helper functions for api calls
 export function handleError(err) {
     let data = {};
@@ -22,7 +22,12 @@ export function handleSingleParam(params, name, value) {
 }
 
 export function handleSingleBoolParam(params, name, value) {
-    if (value != null && value !== '') {
+    if (
+        value != null &&
+        value !== '' &&
+        value !== false &&
+        value.toString().toLowerCase() !== 'false'
+    ) {
         params[name] = true;
     }
 }
