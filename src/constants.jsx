@@ -14,6 +14,7 @@ export const UNVERSIONED_API_URL = API.replace('/v0', '');
 export const LOGIN_ENDPOINT = '/api-token-auth/';
 export const FILES_ENDPOINT = '/fs/files/';
 export const FILES_TYPES_ENDPOINT = '/fs/file-types/';
+export const FILE_BATCH_PATCH_ENDPOINT = '/fs/batch-patch-files';
 export const PIPELINES_ENDPOINT = '/run/pipelines';
 export const RUNS_ENDPOINT = '/run/runs/';
 export const PORTS_ENDPOINT = '/run/port';
