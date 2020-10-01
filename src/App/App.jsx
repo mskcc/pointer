@@ -32,7 +32,9 @@ import { authenticationService } from '@/_services';
 import { bindActionCreators } from 'redux';
 
 const mapStateToProps = function (state) {
-    return {};
+    return {
+        currentUser: state.loginReducer.current_user,
+    };
 };
 
 const mapDispatchToProps = function (dispatch) {
@@ -61,20 +63,20 @@ class AppContainer extends React.Component {
             { link: '/runs', icon: 'clear_all', key: 'runs', text: 'Runs' },
             { link: '/files', icon: 'source', key: 'files', text: 'Files' },
             { link: '/pipelines', icon: 'tune', key: 'Pipelines', text: 'Pipelines' },
-            { link: '/logout', icon: 'logout', key: 'logout', text: 'Logout' },
             { link: '/metadata', icon: 'local_offer', key: 'metadata', text: 'Metadata' },
+            { link: '/logout', icon: 'logout', key: 'logout', text: 'Logout' },
         ];
         this.state = {
-            currentUser: null,
             pages: pages,
         };
     }
 
     componentDidMount() {
+        const currentUser = localStorage.getItem('currentUser', null);
+        if (!currentUser) {
+            history.push('/login');
+        }
         authenticationService.currentUser.subscribe((userObj) => {
-            this.setState({
-                currentUser: userObj,
-            });
             if (!(userObj && userObj.user)) {
                 history.push('/login');
             }
@@ -87,8 +89,8 @@ class AppContainer extends React.Component {
     }
 
     render() {
-        const { currentUser, pages } = this.state;
-        const { classes } = this.props;
+        const { pages } = this.state;
+        const { classes, currentUser } = this.props;
         let email = '';
         if (currentUser && currentUser.user) {
             email = currentUser.user.email;
