@@ -1,9 +1,12 @@
 import React from 'react';
+import AppContainer from '@/App/App';
 import { render } from 'react-dom';
-
-import { App } from './App';
-
+import store from '@/App/store.js';
+import { Provider } from 'react-redux';
 
 render(
-    <App />, document.getElementById('app')
+    <Provider store={store}>
+        <AppContainer />
+    </Provider>,
+    document.getElementById('app')
 );

@@ -1,63 +1,69 @@
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var webpack = require('webpack');
 const path = require('path');
 const port = process.env.POINTER_PORT || 8080;
-const beagleUrl = process.env.BEAGLE_URL || '';
+const beagleUrl = process.env.BEAGLE_URL || 'http://localhost:8000';
 
 module.exports = {
     mode: 'development',
-    resolve: {
-        extensions: ['.web.js', '.js', '.jsx']
-    },
     module: {
         rules: [
             {
                 test: /\.jsx?$/,
-                loader: 'babel-loader'
+                loader: 'babel-loader',
             },
             {
-                test:/\.css$/,
-                use:['style-loader','css-loader']
+                test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+                loader: 'file-loader',
+            },
+            {
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader'],
             },
             {
                 test: /\.(png|jp(e*)g|svg)$/,
-                use: [{
-                    loader: 'url-loader',
-                    options: {
-                        limit: 8000, // Convert images < 8kb to base64 strings
-                        name: 'public/[hash]-[name].[ext]'
-                    }
-                }]
+                use: [
+                    {
+                        loader: 'url-loader',
+                        options: {
+                            limit: 8000, // Convert images < 8kb to base64 strings
+                            name: 'public/[hash]-[name].[ext]',
+                        },
+                    },
+                ],
             },
             {
-	        test: /\.js$/,
-	        exclude: /node_modules/,
-	        include: [path.resolve(__dirname, "node_modules/react-native-fetch-blob")],
-	        use: {
-	            loader: 'babel-loader'
-	        }
-            }
-        ]
+                test: /\.js$/,
+                exclude: /node_modules/,
+                include: [path.resolve(__dirname, 'node_modules/react-native-fetch-blob')],
+                use: {
+                    loader: 'babel-loader',
+                },
+            },
+        ],
     },
     resolve: {
-        extensions: ['.js', '.jsx'],
+        extensions: ['.web.js', '.js', '.jsx'],
         alias: {
             '@': path.resolve(__dirname, 'src/'),
-        }
+        },
     },
+    devtool: 'eval',
     plugins: [
-        new HtmlWebpackPlugin({template: './src/index.html'})
+        new HtmlWebpackPlugin({ template: './src/index.html' }),
+        new webpack.SourceMapDevToolPlugin({}),
     ],
     devServer: {
         historyApiFallback: true,
-        port: port
+        port: port,
     },
     externals: {
         // global app config object
         config: JSON.stringify({
-            apiUrl: beagleUrl
-        })
+            apiUrl: beagleUrl,
+        }),
     },
     output: {
         publicPath: '/',
-    }
-}
+    },
+};
