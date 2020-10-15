@@ -1,0 +1,24 @@
+Bootstrap: docker
+From: node:14.5
+Includecmd: no
+
+%startscript
+
+    if [ -z "$POINTER_PATH" ]; then
+        echo "Please specify SINGULARITYENV_POINTER_PATH"
+        exit 1
+    fi
+
+    if [ -z "$POINTER_PORT" ]; then
+        echo "Please specify SINGULARITYENV_POINTER_PORT"
+        exit 1
+    fi
+
+    if [ -z "$BEAGLE_URL" ]; then
+        echo "Please specify SINGULARITYENV_BEAGLE_URL"
+        exit 1
+    fi
+
+    cd $POINTER_PATH
+    npm install
+    npm start

@@ -6,9 +6,11 @@ export const fileService = {
     getPage,
     getFile,
     getFileTypes,
+    getFileGroups,
     updateFile,
     getPageSearch
 };
+
 
 function getFirst() {
     const requestOptions = { method: 'GET', headers: authHeader() };
@@ -28,8 +30,27 @@ function getFileTypes() {
     return response;
 }
 
+function parseFileGroups(fileGroups) {
+    var fileGroupsList=fileGroups['results']
+    var fileGroups = {}
+    for(var singleFileGroup of fileGroupsList){
+        const singleFileGroupName = singleFileGroup['slug']
+        const singleFileGroupId = singleFileGroup['id']
+        fileGroups[singleFileGroupName] = singleFileGroupId
+    }
+    return fileGroups
+
+}
+
+function getFileGroups() {
+    const requestOptions = { method: 'GET', headers: authHeader() };
+    var fileGroupsResponse = fetch(`${config.apiUrl}/v0/fs/file-groups/`, requestOptions).then(handleResponse).then(parseFileGroups);
+    return fileGroupsResponse
+
+}
+
 function updateFile(file_id, path, size, file_type, metadata) {
-    const requestOptions = { method: 'PUT', 
+    const requestOptions = { method: 'PUT',
                              headers: authHeader(),
                              body: JSON.stringify({ path, size, file_type, metadata })
                             };
@@ -62,24 +83,42 @@ function getPage(page) {
     return response;
 }
 
-function getPageSearch(page, file_group, file_type, metadata, file_name, file_name_regex) {
+function getPageSearch(page, fileGroup, fileType, metadata, fileName, fileNameRegex, valuesMetadata, metadataDistribution, count) {
     const requestOptions = { method: 'GET', headers: authHeader() };
-    var query_params = ""
-    if (file_group != null && file_group != '') {
-        query_params += `&file_group=${file_group}`;
+    var queryParams = "?"
+    if (fileGroup != null && fileGroup != '') {
+        queryParams += `&file_group=${fileGroup}`;
     }
-    if (file_type != null && file_type != '') {
-        query_params += `&file_type=${file_type}`;
+    if (fileType != null && fileType != '') {
+        queryParams += `&file_type=${fileType}`;
     }
-    if (metadata != null && metadata != '') {
-        query_params += `&metadata=${metadata}`;
+    if (fileName != null && fileName != '') {
+        queryParams += `&filename=${fileName}`;
     }
-    if (file_name != null && file_name != '') {
-        query_params += `&filename=${file_name}`;
+    if (fileNameRegex != null && fileNameRegex != '') {
+        queryParams += `&filename_regex=${fileNameRegex}`;
     }
-    if (file_name_regex != null && file_name_regex != '') {
-        query_params += `&filename_regex=${file_name_regex}`;
+    if (Array.isArray(metadata) && metadata.length) {
+        for (const singleMetadata of metadata) {
+            queryParams += `&metadata=${singleMetadata}`
+        }
     }
-    var response = fetch(`${config.apiUrl}/v0/fs/files/?page=${page}${query_params}`, requestOptions).then(handleResponse).then(parseResponse)
+    if (Array.isArray(valuesMetadata) && valuesMetadata.length) {
+        for (const singleMetadata of valuesMetadata) {
+            queryParams += `&values_metadata=${singleMetadata}`
+        }
+    }
+    if (metadataDistribution != null && metadataDistribution != '') {
+        queryParams += `&metadata_distribution=${metadataDistribution}`;
+        var response = fetch(`${config.apiUrl}/v0/fs/files/${queryParams}`, requestOptions).then(handleResponse)
+        return response;
+    }
+    if (count != null && count != '') {
+        queryParams += '&count=true'
+        console.log(queryParams)
+        var response = fetch(`${config.apiUrl}/v0/fs/files/${queryParams}`, requestOptions).then(handleResponse)
+        return response;
+    }
+    var response = fetch(`${config.apiUrl}/v0/fs/files/?page=${page}${queryParams}`, requestOptions).then(handleResponse).then(parseResponse)
     return response;
 }

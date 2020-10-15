@@ -23,7 +23,7 @@ class StartRun extends React.Component {
             file_picker_open: false,
             file_picker_id: null,
             list: false
-        }
+        };
         this.createInput = this.createInput.bind(this);
         this.prepopulate_values = this.prepopulate_values.bind(this);
         this.prepopulate_value = this.prepopulate_value.bind(this);
@@ -56,6 +56,9 @@ class StartRun extends React.Component {
 
     getRun(run_id) {
         runService.getRun(run_id).then(run => this.setState({ run })).then(run => this.prepopulate_values(this.state.run.inputs));
+
+
+        // this.props.getRun(run_id);
     }
 
     openFilePickerSingle(id) {
