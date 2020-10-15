@@ -91,9 +91,13 @@ class AppContainer extends React.Component {
     render() {
         const { pages } = this.state;
         const { classes, currentUser } = this.props;
-        let email = '';
+        let userId = '';
         if (currentUser && currentUser.user) {
-            email = currentUser.user.email;
+            if (currentUser.user.email !== '') {
+                userId = currentUser.user.email;
+            } else {
+                userId = currentUser.user.user;
+            }
         }
 
         return (
@@ -110,7 +114,7 @@ class AppContainer extends React.Component {
                             '/summary',
                             '/metadata',
                         ]}
-                        render={() => <Drawer user={email} pages={pages}></Drawer>}
+                        render={() => <Drawer user={userId} pages={pages}></Drawer>}
                     />
                     <div className={`jumbotron ${classes.content}`}>
                         <Switch>

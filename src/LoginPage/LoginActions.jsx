@@ -16,6 +16,7 @@ export function login(username, password) {
             .then((resp) => {
                 // Todo: ok to not use currentUserSubject anymore? and only localStorage?
                 localStorage.setItem('currentUser', JSON.stringify(resp.data));
+                resp.data.user['user'] = username;
                 dispatch(LOGIN_FULFILLED({ data: resp.data }));
             })
             .catch((err) => {
