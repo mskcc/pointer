@@ -589,7 +589,7 @@ class MetadataPage extends React.Component {
                 <Container component="main">
                     <CssBaseline />
                     <div className={classes.root}>
-                        <Accordion>
+                        <Accordion defaultExpanded={true}>
                             <AccordionSummary
                                 expandIcon={<ExpandMoreIcon />}
                                 aria-controls="panel1a-content"
@@ -651,7 +651,7 @@ class MetadataPage extends React.Component {
                                 />
                             </AccordionDetails>
                         </Accordion>
-                        <Accordion>
+                        <Accordion defaultExpanded={true}>
                             <AccordionSummary
                                 expandIcon={<ExpandMoreIcon />}
                                 aria-controls="panel2a-content"
@@ -666,7 +666,7 @@ class MetadataPage extends React.Component {
                                 />
                             </AccordionDetails>
                         </Accordion>
-                        <Accordion>
+                        <Accordion defaultExpanded={true}>
                             <AccordionSummary
                                 expandIcon={<ExpandMoreIcon />}
                                 aria-controls="panel3a-content"
