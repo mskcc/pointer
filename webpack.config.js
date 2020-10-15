@@ -3,7 +3,8 @@ var webpack = require('webpack');
 const path = require('path');
 const port = process.env.POINTER_PORT || 8080;
 const beagleUrl = process.env.BEAGLE_URL || 'http://localhost:8000';
-
+const host = process.env.POINTER_HOST || "0.0.0.0";
+const allowedHost = process.env.POINTER_ALLOWED_HOST_LIST || "localhost";
 module.exports = {
     mode: 'development',
     module: {
@@ -55,7 +56,9 @@ module.exports = {
     ],
     devServer: {
         historyApiFallback: true,
-        port: port,
+        host: host,
+	    port: port,
+	    allowedHosts: allowedHost.split(','),
     },
     externals: {
         // global app config object
