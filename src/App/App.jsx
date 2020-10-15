@@ -59,7 +59,7 @@ class AppContainer extends React.Component {
         super(props);
 
         const pages = [
-            { link: '/summary', icon: 'insert_chart', key: 'summary', text: 'Summary' },
+            // { link: '/summary', icon: 'insert_chart', key: 'summary', text: 'Summary' },
             //{ link: '/runs', icon: 'clear_all', key: 'runs', text: 'Runs' },
             //{ link: '/files', icon: 'source', key: 'files', text: 'Files' },
             //{ link: '/pipelines', icon: 'tune', key: 'Pipelines', text: 'Pipelines' },

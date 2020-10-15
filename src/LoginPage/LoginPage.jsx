@@ -63,7 +63,7 @@ class LoginPage extends React.Component {
 
         // redirect to summary if already logged in
         if (localStorage.getItem('currentUser')) {
-            this.props.history.push('/summary');
+            this.props.history.push('/metadata');
         }
 
         this.login = this.login.bind(this);
@@ -108,7 +108,7 @@ class LoginPage extends React.Component {
                                 if (this.props.current_user_error) {
                                     setErrors({ password: this.props.current_user_error.detail });
                                 } else {
-                                    history.push('/summary');
+                                    history.push('/metadata');
                                 }
                             });
                         }}
