@@ -94,7 +94,7 @@ export function setupDictTable(dict, keyList, numColumn, fieldBackgroundColor, f
                     let value_key = 'value' + currentCol.toString();
 
                     rowData[field_key] = title;
-                    rowData[value_key] = value;
+                    rowData[value_key] = value.toString();
                     keys.push(key);
                     currentCol++;
                     if (currentCol === numColumn) {
