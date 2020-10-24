@@ -542,7 +542,6 @@ class MetadataPage extends React.Component {
                                                 sampleTitleToField
                                             );
                                         }
-                                        console.log(fileObj);
                                         newMetadata.push(fileObj);
                                     }
                                     this.setState(
