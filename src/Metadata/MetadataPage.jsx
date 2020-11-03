@@ -245,6 +245,7 @@ class MetadataPage extends React.Component {
             }
 
             let allKeys = [];
+            let currentSampleMetadata = {};
 
             for (const singleFile of metadata) {
                 if (singleFile['metadata']['sampleName'] == sampleName) {
@@ -253,6 +254,7 @@ class MetadataPage extends React.Component {
                         singleFileObj[singleKey] = singleFile['metadata'][singleKey];
                     }
                     singleFileObj['fileName'] = singleFile['file_name'];
+                    currentSampleMetadata = singleFile['metadata'];
                     fileObjList.push(singleFileObj);
                     allKeys = Object.keys(singleFile['metadata']);
                 }
@@ -264,7 +266,7 @@ class MetadataPage extends React.Component {
             );
 
             const { data, keys, column, titleToField } = setupDictTable(
-                metadata[sampleIndex]['metadata'],
+                currentSampleMetadata,
                 sampleKeyList,
                 1,
                 'darkslateblue',
@@ -417,6 +419,7 @@ class MetadataPage extends React.Component {
             .loadFilesList({
                 metadata: [metadataQuery],
                 count: false,
+                page_size: 1000, //todo: find a better way to handle this
                 state_key: 'file_metadata',
             })
             .then(() => {
@@ -508,6 +511,7 @@ class MetadataPage extends React.Component {
                                         sampleList,
                                     } = this.state;
                                     let sampleName = sampleList[sampleIndex]['label'];
+                                    let newSampleList = sampleList;
                                     if (!(sampleName in metadataChanges['sample'])) {
                                         metadataChanges['sample'][sampleName] = {};
                                     }
@@ -517,6 +521,17 @@ class MetadataPage extends React.Component {
                                         metadataChanges['sample'][sampleName],
                                         sampleTitleToField
                                     );
+                                    if ('Sample Name' in metadataChanges['sample'][sampleName]) {
+                                        let newSampleName =
+                                            metadataChanges['sample'][sampleName]['Sample Name'][
+                                                'current'
+                                            ];
+                                        metadataChanges['sample'][newSampleName] =
+                                            metadataChanges['sample'][sampleName];
+                                        delete metadataChanges['sample'][sampleName];
+
+                                        newSampleList[sampleIndex]['label'] = newSampleName;
+                                    }
                                     let newMetadata = [];
                                     for (const singleFile of metadata) {
                                         let fileObj = { ...singleFile };
@@ -527,15 +542,16 @@ class MetadataPage extends React.Component {
                                                 sampleTitleToField
                                             );
                                         }
-                                        console.log(fileObj);
                                         newMetadata.push(fileObj);
                                     }
                                     this.setState(
                                         {
                                             metadata: newMetadata,
                                             metadataChanges: metadataChanges,
+                                            sampleList: newSampleList,
                                         },
                                         () => {
+                                            this.setUpSampleTable();
                                             this.renderMetaDataChanges();
                                             resolve();
                                         }
@@ -839,6 +855,7 @@ class MetadataPage extends React.Component {
                                     .loadFilesList({
                                         metadata: [metadataQuery],
                                         count: false,
+                                        page_size: 1000, //todo: find a better way to handle this
                                         state_key: 'file_metadata',
                                     })
                                     .then(() => {
