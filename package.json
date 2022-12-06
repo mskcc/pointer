@@ -28,7 +28,7 @@
         "material-table": "^1.68.1",
         "material-ui": "^0.20.2",
         "paper": "^0.12.8",
-        "qs": "^6.9.4",
+        "qs": "^6.9.7",
         "react": "^16.13.1",
         "react-chartjs-2": "^2.10.0",
         "react-dom": "^16.13.1",
